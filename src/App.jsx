@@ -14,25 +14,28 @@ import {
 } from "@100mslive/react-sdk";
 import { Box, HMSThemeProvider } from "@100mslive/react-ui";
 import { AppData } from "./components/AppData/AppData.jsx";
-import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
-import { ErrorBoundary } from "./components/ErrorBoundary";
-import ErrorPage from "./components/ErrorPage";
-import FullPageProgress from "./components/FullPageProgress";
-import { Init } from "./components/init/Init";
-import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
-import { Notifications } from "./components/Notifications";
-import PostLeave from "./components/PostLeave";
-import { ToastContainer } from "./components/Toast/ToastContainer";
+import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging.jsx";
+import { ErrorBoundary } from "./components/ErrorBoundary.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
+import FullPageProgress from "./components/FullPageProgress.jsx";
+import { Init } from "./components/init/Init.jsx";
+import { KeyboardHandler } from "./components/Input/KeyboardInputManager.js";
+import { Notifications } from "./components/Notifications/index.jsx";
+import PostLeave from "./components/PostLeave.jsx";
+import { ToastContainer } from "./components/Toast/ToastContainer.jsx";
 import { hmsActions, hmsNotifications, hmsStats, hmsStore } from "./hms.js";
-import { Confetti } from "./plugins/confetti";
-import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare";
-import { getRoutePrefix, shadeColor } from "./common/utils";
-import { FeatureFlags } from "./services/FeatureFlags";
+import JoinForm from "./JoinForm.jsx";
+import { Confetti } from "./plugins/confetti.jsx";
+import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare.jsx";
+import { getRoutePrefix, shadeColor } from "./common/utils.js";
+import { FeatureFlags } from "./services/FeatureFlags.jsx";
 import "./base.css";
 import "./index.css";
 
-const Conference = React.lazy(() => import("./components/conference"));
-const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
+const Conference = React.lazy(() => import("./components/conference.jsx"));
+const PreviewScreen = React.lazy(() =>
+  import("./components/PreviewScreen.jsx")
+);
 
 const defaultTokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
@@ -46,18 +49,6 @@ if (window.location.host.includes("localhost")) {
 
 document.title =
   process.env.REACT_APP_TITLE || `${appName}'s ${document.title}`;
-
-// TODO: remove now that there are options to change to portrait
-const getAspectRatio = ({ width, height }) => {
-  const host = process.env.REACT_APP_HOST_NAME || window.location.hostname;
-  const portraitDomains = (
-    process.env.REACT_APP_PORTRAIT_MODE_DOMAINS || ""
-  ).split(",");
-  if (portraitDomains.includes(host) && width > height) {
-    return { width: height, height: width };
-  }
-  return { width, height };
-};
 
 export function EdtechComponent({
   tokenEndpoint = defaultTokenEndpoint,
